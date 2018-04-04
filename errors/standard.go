@@ -7,4 +7,5 @@ var (
 	Forbidden = New("Forbidden").SetStatus(403)
 	InternalServerError = New("Internal server error").SetStatus(500)
 	AccessDenied = New("Access denied")
+	Timeout = New("Timeout")
 )
