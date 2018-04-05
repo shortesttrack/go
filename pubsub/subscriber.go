@@ -12,8 +12,7 @@ type SubscriptionOptions struct {
 	Subscription string
 }
 
-func NewSubscriber(options SubscriptionOptions) (Subscriber, error) {
-	ctx := context.Background()
+func NewSubscriber(ctx context.Context, options SubscriptionOptions) (Subscriber, error) {
 	client, err := pubsub.NewClient(ctx, options.ProjectID)
 	if err != nil {
 		return nil, err

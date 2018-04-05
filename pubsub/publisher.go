@@ -11,8 +11,7 @@ type PublishOptions struct {
 	Topic string
 }
 
-func NewPublisher(options PublishOptions) (Publisher, error) {
-	ctx := context.Background()
+func NewPublisher(ctx context.Context, options PublishOptions) (Publisher, error) {
 	client, err := pubsub.NewClient(ctx, options.ProjectID)
 	if err != nil {
 		return nil, err
