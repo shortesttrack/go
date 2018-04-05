@@ -46,8 +46,8 @@ func (s *subscriber) Start() <-chan Message {
 	go func(s *subscriber, mc chan Message) {
 		defer close(output)
 		s.ctx, s.cancel = context.WithCancel(s.ctx)
-		err := s.sub.Receive(s.ctx, func(ctx context.Context, message *pubsub.Message) {
-			output <- &message{message}
+		err := s.sub.Receive(s.ctx, func(ctx context.Context, msg *pubsub.Message) {
+			output <- &message{msg}
 		})
 		if err != nil {
 			s.Stop()
