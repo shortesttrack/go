@@ -4,14 +4,12 @@ import (
 	"context"
 )
 
-
-
 type Publisher interface {
 	Publish(context.Context, Message) error
 }
 
 type Subscriber interface {
-	Start() <- chan Message
+	Start() <-chan Message
 	Err() error
 	Stop() error
 }
@@ -21,5 +19,7 @@ type Message interface {
 	Attributes() map[string]string
 	Event() string
 	Data() []byte
-}
 
+	Ack()
+	Nack()
+}

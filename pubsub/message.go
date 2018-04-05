@@ -35,3 +35,11 @@ func (m *message) Event() string {
 func (m *message) Data() []byte {
 	return m.Message.Data
 }
+
+func (m *message) Ack() {
+	m.Message.Ack()
+}
+
+func (m *message) Nack() {
+	m.Message.Nack()
+}
