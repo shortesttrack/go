@@ -5,6 +5,7 @@ type Error interface {
 	Message() string
 	Code() int
 	Status() int
+	ErrorStack() []error
 	SetMessage(string) Error
 	SetStatus(int) Error
 	SetCode(int) Error
@@ -17,10 +18,17 @@ func New(message string) Error {
 }
 
 func From(err error) Error {
-	return &errorImplementation{
+	result := &errorImplementation{
 		message: err.Error(),
-		errorStack: []error{err},
+		errorStack: make([]error, 0),
 	}
+	if e, ok := err.(Error); ok {
+		result.code = e.Code()
+		result.status = e.Status()
+		result.errorStack = append(result.errorStack, e.ErrorStack()...)
+	}
+	result.errorStack = append(result.errorStack, err)
+	return result
 }
 
 type errorImplementation struct {
@@ -44,6 +52,10 @@ func (e *errorImplementation) Code() int {
 
 func (e *errorImplementation) Status() int {
 	return e.status
+}
+
+func (e *errorImplementation) ErrorStack() []error {
+	return e.errorStack
 }
 
 func (e *errorImplementation) SetMessage(m string) Error {
