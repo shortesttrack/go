@@ -8,4 +8,5 @@ var (
 	InternalServerError = New("Internal server error").SetStatus(500)
 	AccessDenied = New("Access denied")
 	Timeout = New("Timeout")
+	AlreadyExists = New("Already Exists")
 )
