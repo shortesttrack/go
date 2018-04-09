@@ -31,6 +31,19 @@ func From(err error) Error {
 	return result
 }
 
+func Equal(e1 error, e2 error) bool {
+	if &e1 == &e2 {
+		return true
+	}
+	if e1e, ok := e1.(Error); ok {
+		return e1e.Error() == e2.Error()
+	}
+	if e2e, ok := e2.(Error); ok {
+		return e2e.Error() == e1.Error()
+	}
+	return e1 == e2
+}
+
 type errorImplementation struct {
 	message string
 	code int
