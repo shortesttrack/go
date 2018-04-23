@@ -5,6 +5,7 @@ import (
 	"cloud.google.com/go/pubsub"
 	"st-go/errors"
 	"sync"
+	"log"
 )
 
 type SubscriptionOptions struct {
@@ -47,10 +48,12 @@ func (s *subscriber) Start() <-chan Message {
 		defer close(output)
 		s.ctx, s.cancel = context.WithCancel(s.ctx)
 		err := s.sub.Receive(s.ctx, func(ctx context.Context, msg *pubsub.Message) {
-			output <- &message{msg}
+			message := &message{msg}
+			output <- message
 		})
+		log.Print(err)
+		s.Stop()
 		if err != nil {
-			s.Stop()
 			s.err = err
 		}
 	}(s, output)
@@ -71,5 +74,4 @@ func (s *subscriber) Stop() {
 	if s.cancel != nil {
 		s.cancel()
 	}
-	return
 }
