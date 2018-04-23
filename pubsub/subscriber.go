@@ -61,7 +61,7 @@ func (s *subscriber) Err() error {
 	return s.err
 }
 
-func (s *subscriber) Stop() error {
+func (s *subscriber) Stop() {
 	s.stopMu.Lock()
 	defer s.stopMu.Unlock()
 	if s.stopped {

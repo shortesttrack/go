@@ -11,7 +11,7 @@ type Publisher interface {
 type Subscriber interface {
 	Start() <-chan Message
 	Err() error
-	Stop() error
+	Stop()
 }
 
 type Message interface {
