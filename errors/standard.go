@@ -9,4 +9,5 @@ var (
 	AccessDenied = New("Access denied")
 	Timeout = New("Timeout")
 	AlreadyExists = New("Already Exists")
+	ChannelIsClosed = New("Channel is closed")
 )
