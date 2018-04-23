@@ -65,11 +65,11 @@ func (s *subscriber) Stop() {
 	s.stopMu.Lock()
 	defer s.stopMu.Unlock()
 	if s.stopped {
-		return nil
+		return
 	}
 	s.stopped = true
 	if s.cancel != nil {
 		s.cancel()
 	}
-	return nil
+	return
 }
