@@ -1,4 +1,4 @@
-package server
+package httpserver
 
 type Response struct {
 	Payload interface{} `json:"payload,omitempty"`
