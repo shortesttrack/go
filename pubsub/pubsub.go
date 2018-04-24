@@ -14,6 +14,12 @@ type Subscriber interface {
 	Stop()
 }
 
+type Subscription interface {
+	Start() <-chan Message
+	Err() error
+	Stop()
+}
+
 type Message interface {
 	ID() string
 	Attributes() map[string]string
