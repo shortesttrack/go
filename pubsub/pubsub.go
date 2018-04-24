@@ -18,6 +18,7 @@ type Subscription interface {
 	Start() <-chan Message
 	Err() error
 	Stop()
+	Context() context.Context
 }
 
 type Message interface {

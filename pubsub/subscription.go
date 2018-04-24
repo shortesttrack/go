@@ -19,7 +19,9 @@ type subscription struct {
 	name string
 
 	ctx    context.Context
-	cancel func()
+
+	subscriptionContext context.Context
+	subscriptionCancel func()
 	err error
 	stopMu sync.Mutex
 	stopped bool
@@ -49,11 +51,10 @@ func NewSubscription(ctx context.Context, options SubscriptionOpts) (Subscriptio
 
 func (s *subscription) Start() <-chan Message {
 	output := make(chan Message)
-	ctx, cancel := context.WithCancel(s.ctx)
-	s.cancel = cancel
+	s.subscriptionContext, s.subscriptionCancel = context.WithCancel(s.ctx)
 	go func(s *subscription, output chan Message) {
 		defer close(output)
-		err := s.Subscription.Receive(ctx, func(ctx context.Context, msg *pubsub.Message) {
+		err := s.Subscription.Receive(s.subscriptionContext, func(ctx context.Context, msg *pubsub.Message) {
 			output <- &message{msg}
 		})
 		s.err = err
@@ -73,7 +74,14 @@ func (s *subscription) Stop() {
 		return
 	}
 	s.stopped = true
-	if s.cancel != nil {
-		s.cancel()
+	if s.subscriptionCancel != nil {
+		s.subscriptionCancel()
 	}
+}
+
+func (s *subscription) Context() context.Context {
+	if s.subscriptionContext == nil {
+		return s.ctx
+	}
+	return s.subscriptionContext
 }
