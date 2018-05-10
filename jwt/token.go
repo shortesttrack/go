@@ -20,6 +20,7 @@ type Token struct {
 func NewToken(string string, keyFunc KeyFunc) *Token {
 	return &Token{
 		raw: string,
+		keyFunc: keyFunc,
 	}
 }
 
