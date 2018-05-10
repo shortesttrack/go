@@ -41,10 +41,11 @@ func (t *Token) Parse() error {
 	}
 	if claims, ok := token.Claims.(jwt.MapClaims); ok {
 		log.Print(claims)
-		exp, ok := claims["exp"].(int64)
+		expFloat, ok := claims["exp"].(float64)
 		if !ok {
 			return errors.New("exp required for token")
 		}
+		exp := int64(expFloat)
 		t.exp = time.Unix(exp, 0)
 		token.Claims = claims
 		t.isValid = token.Valid
