@@ -4,6 +4,7 @@ import (
 	"time"
 	"st-go/errors"
 	"github.com/dgrijalva/jwt-go"
+	"log"
 )
 
 type KeyFunc func() ([]byte, error)
@@ -39,6 +40,7 @@ func (t *Token) Parse() error {
 		return err
 	}
 	if claims, ok := token.Claims.(jwt.MapClaims); ok {
+		log.Print(claims)
 		exp, ok := claims["exp"].(int64)
 		if !ok {
 			return errors.New("exp required for token")
