@@ -4,7 +4,6 @@ import (
 	"time"
 	"st-go/errors"
 	"github.com/dgrijalva/jwt-go"
-	"log"
 )
 
 type KeyFunc func() ([]byte, error)
