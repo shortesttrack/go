@@ -53,3 +53,16 @@ func (t *Token) Parse() error {
 	}
 	return errors.New("claims failure")
 }
+
+func (t *Token) IsValid() bool {
+	return t.isValid && t.exp.After(time.Now())
+}
+
+func (t *Token) Deadline() time.Time {
+	return t.exp
+}
+
+func (t *Token) SetRaw(token string) {
+	t.raw = token
+	t.isValid = false
+}
