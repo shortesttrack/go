@@ -17,9 +17,9 @@ type Token struct {
 	keyFunc KeyFunc
 }
 
-func NewToken(string string, keyFunc KeyFunc) *Token {
+func NewToken(tokenString string, keyFunc KeyFunc) *Token {
 	return &Token{
-		raw: string,
+		raw: tokenString,
 		keyFunc: keyFunc,
 		claims: make(map[string]interface{}),
 	}
