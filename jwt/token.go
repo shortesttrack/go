@@ -22,6 +22,7 @@ func NewToken(string string, keyFunc KeyFunc) *Token {
 	return &Token{
 		raw: string,
 		keyFunc: keyFunc,
+		claims: make(map[string]interface{}),
 	}
 }
 
@@ -40,7 +41,6 @@ func (t *Token) Parse() error {
 		return err
 	}
 	if claims, ok := token.Claims.(jwt.MapClaims); ok {
-		log.Print(claims)
 		expFloat, ok := claims["exp"].(float64)
 		if !ok {
 			return errors.New("exp required for token")
@@ -68,5 +68,12 @@ func (t *Token) Deadline() time.Time {
 
 func (t *Token) SetRaw(token string) {
 	t.raw = token
+	t.isValid = false
+}
+
+func (t *Token) Invalidate() {
+	t.raw = ""
+	t.exp = time.Now()
+	t.claims = make(map[string]interface{})
 	t.isValid = false
 }
