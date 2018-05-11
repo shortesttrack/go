@@ -47,7 +47,7 @@ func (t *Token) Parse() error {
 		}
 		exp := int64(expFloat)
 		t.exp = time.Unix(exp, 0)
-		token.Claims = claims
+		t.claims = claims
 		t.isValid = token.Valid
 		return nil
 	}
@@ -56,6 +56,10 @@ func (t *Token) Parse() error {
 
 func (t *Token) IsValid() bool {
 	return t.isValid && t.exp.After(time.Now())
+}
+
+func (t *Token) Claims() map[string]interface{} {
+	return t.claims
 }
 
 func (t *Token) Deadline() time.Time {
